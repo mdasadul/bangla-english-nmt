@@ -34,8 +34,8 @@ def BaseModel(object):
 
 	def _build_graph(self, rnn_size, num_layers, dropout,seed):
 		source = self.iterator.source
-
-		enc_output, enc_state = encoder_cell(inputs,rnn_size,dropout,num_layers,sequence_length)
+		embedded_input = tf.nn.embedding_lookup(self.embedding_encoder, source)
+		enc_output, enc_state = encoder_cell(embedded_input,rnn_size,dropout,num_layers,sequence_length)
 		
 
 	def _create_embedding(self, embed_name,vocab_size,embed_size,dtype=tf.float32):
