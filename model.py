@@ -16,7 +16,15 @@ def BaseModel(object):
 		self.source_seuence_length = hparams.source_seuence_length
 		self.target_sequence_length = hparams.target_sequence_length
 		self.num_layers = hparams.num_layers
-
+		self.source_vocabulary_size = hparams.source_vocabulary_size
+		self.target_vocabulary_size =hparams.target_vocabulary_size
+		self.embedding_encoder = _create_embedding("encoder_embedding",
+													self.source_vocabulary_size,
+													self.rnn_size)
+		self.embedding_decoder = _create_embedding("decoder_embedding",
+													self.target_vocabulary_size,
+													self.rnn_size)
+		
 
 		return_loss = _build_graph(rnn_size, num_layers, dropout,seed)
 
@@ -24,6 +32,11 @@ def BaseModel(object):
 	def _build_graph(self, rnn_size, num_layers, dropout,seed):
 		enc_output, enc_state = encoder_cell(rnn_size,dropout,num_layers,sequence_length)
 		
+
+	def _create_embedding(self, embed_name,vocab_size,embed_size,dtype=tf.float32):
+		"""create a new embedding matrix"""
+		embedding = tf.get_variable(embed_name,[vocab_size,embed_size],dtype)
+		return embedding
 
 	#encoder
 	def encoder_cell(self, rnn_size, dropout,num_layers,sequence_length)
