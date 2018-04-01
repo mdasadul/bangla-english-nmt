@@ -22,7 +22,7 @@ def BaseModel(object):
 
 
 	def _build_graph(self, rnn_size, num_layers, dropout,seed):
-		encoder_cell()
+		enc_output, enc_state = encoder_cell(rnn_size,dropout,num_layers,sequence_length)
 		
 
 	#encoder
@@ -41,6 +41,7 @@ def BaseModel(object):
 															dtype=tf.float32,
 															)
 		enc_output = tf.concat(enc_output,-1)
+		return enc_output, enc_state
 
 	# helper to create the attention cell with
 	def decoder_cell(dec_cell, rnn_size, enc_output,  lengths):
