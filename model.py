@@ -25,6 +25,7 @@ def BaseModel(object):
 		encoder_cell()
 		
 
+	#encoder
 	def encoder_cell(self, rnn_size, dropout,num_layers,sequence_length)
 		
 		#To Do
