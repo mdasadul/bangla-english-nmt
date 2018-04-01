@@ -6,7 +6,7 @@ import numpy as np
 import tensorflow as tf 
 
 def BaseModel(object):
-	def __init__(self, hparams,mode, iterator):
+	def __init__(self, hparams,mode, iterator, source_vocabulary_table, target_vocabulary_table):
 
 		self.mode = mode
 		self.iterator = iterator
@@ -18,6 +18,9 @@ def BaseModel(object):
 		self.num_layers = hparams.num_layers
 		self.source_vocabulary_size = hparams.source_vocabulary_size
 		self.target_vocabulary_size =hparams.target_vocabulary_size
+		self.source_vocabulary_table = source_vocabulary_table
+		self.target_vocabulary_table = target_vocabulary_table
+
 		self.embedding_encoder = _create_embedding("encoder_embedding",
 													self.source_vocabulary_size,
 													self.rnn_size)
@@ -30,7 +33,9 @@ def BaseModel(object):
 
 
 	def _build_graph(self, rnn_size, num_layers, dropout,seed):
-		enc_output, enc_state = encoder_cell(rnn_size,dropout,num_layers,sequence_length)
+		source = self.iterator.source
+
+		enc_output, enc_state = encoder_cell(inputs,rnn_size,dropout,num_layers,sequence_length)
 		
 
 	def _create_embedding(self, embed_name,vocab_size,embed_size,dtype=tf.float32):
