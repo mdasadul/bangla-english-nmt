@@ -25,11 +25,14 @@ def BaseModel(object):
 		encoder_cell()
 		
 
-	def encoder_cell(self, rnn_size, dropout,num_layers)
+	def encoder_cell(self, rnn_size, dropout,num_layers,sequence_length)
+		
+		#To Do
+		rnn_inputs = None
 		# foward 
-		cell_fw = tf.nn.rnn_cell.MultiRNNCell([_make_lstm(rnn_size, keep_prob) for _ in range(n_layers)])
+		cell_fw = tf.nn.rnn_cell.MultiRNNCell([_make_lstm(rnn_size, keep_prob) for _ in range(num_layers)])
 		# backward    
-		cell_bw = tf.nn.rnn_cell.MultiRNNCell([make_lstm(rnn_size, keep_prob) for _ in range(n_layers)])
+		cell_bw = tf.nn.rnn_cell.MultiRNNCell([make_lstm(rnn_size, keep_prob) for _ in range(num_layers)])
 		enc_output, enc_state = tf.nn.bidirectional_dynamic_rnn(cell_fw,
 															cell_bw,
 															rnn_inputs,
@@ -51,6 +54,7 @@ def BaseModel(object):
 				cell                 = dec_cell,
 				attention_mechanism  = attention_mechanism,
 				attention_layer_size = rnn_size)
+
 
 
 	# helper to create the layers
